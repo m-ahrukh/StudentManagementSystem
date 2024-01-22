@@ -18,10 +18,10 @@ export default async function AddNewStudent() {
         'use server'
         let name = data.get("name")?.valueOf();
         let age = parseInt(data.get("age")?.valueOf());
-        console.log("type of age: ", typeof(age))
+        console.log("type of age: ", typeof (age))
         let graduated = data.get("graduated")?.valueOf();
 
-        console.log("name: "+ name + ", age: "+ age + ", graduated: "+graduated)
+        console.log("name: " + name + ", age: " + age + ", graduated: " + graduated)
         await POST(name, age, graduated)
 
         redirect('/')
@@ -30,12 +30,22 @@ export default async function AddNewStudent() {
     return (
         <div className="justify-center my-20">
             <form action={(addStudent)} className='flex flex-col justify-center items-center'>
-                <input type='text' name='name' id='name' placeholder='Student Name' required
-                    className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
-                <input type='text' name='age' id='age' placeholder='Student Age' required
-                    className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
-                <input type='text' name='graduated' id='graduated' placeholder='True/False' required
-                    className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
+                <div className="flex flex-col">
+                    <label>Student Name</label>
+                    <input type='text' name='name' id='name' placeholder='Student Name' required
+                        className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
+                </div>
+                <div className="flex flex-col">
+                    <label>Student Age</label>
+                    <input type='text' name='age' id='age' placeholder='Student Age' required
+                        className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
+                </div>
+                <div className="flex flex-col">
+                    <label>Is Graduated?</label>
+                    <input type='text' name='graduated' id='graduated' placeholder='True/False' required
+                        className='shadow-lg rounded-md shadow-black h-10 p-3 mb-6' />
+                </div>
+
                 <button type='submit' className='bg-orange-500 font-bold text-white hover:bg-red-600 p-3 rounded-md'>SUBMIT</button>
             </form>
         </div>

@@ -4,7 +4,7 @@ import dbConnect from "./utils/dbConnect";
 import { redirect } from 'next/navigation'
 
 type Student = {
-  stu_id?: number,
+  student_id?: number,
   stu_name: string,
   stu_age: number,
   graduated: boolean
@@ -20,7 +20,7 @@ export default async function Home() {
   }
   const result = responseData.result || [];
 
-  async function deleteStudent(data) {
+  async function deleteStudent(data: any) {
     'use server'
     let id = parseInt(data.get("id")?.valueOf());
 
