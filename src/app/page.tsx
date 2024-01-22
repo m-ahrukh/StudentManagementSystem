@@ -1,5 +1,7 @@
-import { GET } from "./api/route";
+import Link from "next/link";
+import { DELETE, GET } from "./api/route";
 import dbConnect from "./utils/dbConnect";
+import { redirect } from 'next/navigation'
 
 type Student = {
   stu_id?: number,
@@ -18,6 +20,17 @@ export default async function Home() {
   }
   const result = responseData.result || [];
 
+  async function deleteStudent(data){
+    'use server'
+    let id = parseInt(data.get("id")?.valueOf());
+
+    console.log("Id is ", id)
+    console.log("type of Id is ", typeof(id))
+
+    await DELETE(id)
+    redirect('/')
+  }
+
   return (
     <div className="flex flex-col gap-5">
       <h1>Student Management System</h1>
@@ -28,20 +41,33 @@ export default async function Home() {
             <th className="border px-5">Student Name</th>
             <th className="border px-5">Student Age</th>
             <th className="border px-5">Graduated</th>
+            <th className="border px-5">Actions</th>
           </tr>
         </thead>
         <tbody>
           {result.map((dataRow: Student, index: number) => (
             <tr key={index}>
-              <td className="border text-center">{index+1}</td>
+              <td className="border text-center">{index + 1}</td>
               <td className="border text-center">{dataRow.stu_name}</td>
               <td className="border text-center">{dataRow.stu_age}</td>
-              <td className="border text-center">{dataRow.graduated? 'true': 'false'}</td>
+              <td className="border text-center">{dataRow.graduated ? 'true' : 'false'}</td>
+              <td className="border flex flex-row">
+                <form action={deleteStudent}>
+                  <input type='text' name="id" value={index} hidden />
+                  <button className='bg-red-500 rounded text-white p-1' type='submit'>Delete</button>
+                </form>
+                {/* <button className="bg-red-500 p-1 rounded">Delete</button> */}
+                <button className="bg-cyan-500 p-1 rounded">Update</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className="bg-blue-400 p-3 rounded w-32">Add Student</button>
+      <Link href={'/add/'}>
+        <button className="bg-blue-400 p-3 rounded w-32">
+          Add Student
+        </button>
+      </Link>
     </div>
   );
 }
