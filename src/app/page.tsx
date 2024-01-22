@@ -20,12 +20,9 @@ export default async function Home() {
   }
   const result = responseData.result || [];
 
-  async function deleteStudent(data){
+  async function deleteStudent(data) {
     'use server'
     let id = parseInt(data.get("id")?.valueOf());
-
-    console.log("Id is ", id)
-    console.log("type of Id is ", typeof(id))
 
     await DELETE(id)
     redirect('/')
@@ -33,7 +30,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1>Student Management System</h1>
+      <h1 className="text-center" style={{ fontSize: '24px' }}>Student Management System</h1>
       <table className="border shadow-md">
         <thead className="border shadow-md">
           <tr>
@@ -47,23 +44,25 @@ export default async function Home() {
         <tbody>
           {result.map((dataRow: Student, index: number) => (
             <tr key={index}>
-              <td className="border text-center">{index + 1}</td>
+             
+              <td className="border text-center"> {index+1}</td>
               <td className="border text-center">{dataRow.stu_name}</td>
               <td className="border text-center">{dataRow.stu_age}</td>
               <td className="border text-center">{dataRow.graduated ? 'true' : 'false'}</td>
               <td className="border flex flex-row">
                 <form action={deleteStudent}>
-                  <input type='text' name="id" value={index} hidden />
+                  <input type='text' name="id" value={dataRow.student_id} hidden />
                   <button className='bg-red-500 rounded text-white p-1' type='submit'>Delete</button>
                 </form>
-                {/* <button className="bg-red-500 p-1 rounded">Delete</button> */}
-                <button className="bg-cyan-500 p-1 rounded">Update</button>
+                <Link href={'/edit/' + dataRow.student_id}>
+                  <button className='bg-cyan-500 p-1 rounded'>Update</button>
+                </Link>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Link href={'/add/'}>
+      <Link href={'/add/'} className="text-center">
         <button className="bg-blue-400 p-3 rounded w-32">
           Add Student
         </button>
